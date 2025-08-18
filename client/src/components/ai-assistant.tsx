@@ -27,14 +27,30 @@ export function AIAssistant() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const shouldAutoScrollRef = useRef(true);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (shouldAutoScrollRef.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    // Only auto-scroll if the last message is from assistant or it's the initial load
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.sender === "assistant" || messages.length === 1) {
+        scrollToBottom();
+      }
+    }
   }, [messages]);
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+    const isAtBottom = scrollHeight - scrollTop <= clientHeight + 5; // 5px tolerance
+    shouldAutoScrollRef.current = isAtBottom;
+  };
 
   const handleSendMessage = async () => {
     const message = input.trim();
@@ -146,7 +162,7 @@ export function AIAssistant() {
                 data-testid="chat-interface"
               >
                 {/* Messages Container */}
-                <ScrollArea className="h-96 p-6">
+                <ScrollArea className="h-96 p-6" onScrollCapture={handleScroll}>
                   <div className="space-y-4">
                     {messages.map((message) => (
                       <motion.div
