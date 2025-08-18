@@ -32,7 +32,7 @@ export function SearchFilters({ onSearchChange, onDomainChange, selectedDomain }
             placeholder="Search hackathons..."
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+            className="w-full py-3 rounded-xl border border-border bg-card text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all ml-[0px] mr-[0px] mt-[0px] mb-[0px] pt-[12px] pb-[12px] pl-[300px] pr-[300px]"
             data-testid="input-search"
           />
         </div>
