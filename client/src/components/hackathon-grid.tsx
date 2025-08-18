@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MapPin, ExternalLink } from "lucide-react";
 
 // Sample hackathons data - in a real app this would come from API
 const hackathons = [
@@ -10,10 +11,11 @@ const hackathons = [
     description: "Build the future of decentralized applications with cutting-edge blockchain technology.",
     domain: "Web3",
     location: "San Francisco, CA",
-    startDate: "Dec 15",
-    endDate: "Dec 17",
+    startDate: "Sep 15",
+    endDate: "Sep 17",
     prizePool: 50000,
     imageUrl: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://web3summit2025.devpost.com",
   },
   {
     id: "2",
@@ -21,10 +23,11 @@ const hackathons = [
     description: "Create intelligent solutions using machine learning and artificial intelligence.",
     domain: "AI/ML",
     location: "Virtual",
-    startDate: "Jan 20",
-    endDate: "Jan 22",
+    startDate: "Oct 20",
+    endDate: "Oct 22",
     prizePool: 30000,
     imageUrl: "https://images.unsplash.com/photo-1555255707-c07966088b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://airevolution2025.devpost.com",
   },
   {
     id: "3",
@@ -32,10 +35,71 @@ const hackathons = [
     description: "Develop innovative solutions to improve healthcare accessibility and outcomes.",
     domain: "Healthcare",
     location: "Boston, MA",
-    startDate: "Feb 10",
-    endDate: "Feb 12",
+    startDate: "Nov 10",
+    endDate: "Nov 12",
     prizePool: 25000,
     imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://healthtech2025.devpost.com",
+  },
+  {
+    id: "4",
+    title: "Cloud Computing Championship",
+    description: "Build scalable cloud-native applications and infrastructure solutions for enterprise.",
+    domain: "Cloud",
+    location: "Seattle, WA",
+    startDate: "Dec 5",
+    endDate: "Dec 7",
+    prizePool: 40000,
+    imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://cloudchampionship2025.devpost.com",
+  },
+  {
+    id: "5",
+    title: "Data Science Olympics",
+    description: "Analyze complex datasets and create predictive models for real-world challenges.",
+    domain: "Data Science",
+    location: "Austin, TX",
+    startDate: "Jan 15",
+    endDate: "Jan 17",
+    prizePool: 35000,
+    imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://datascienceolympics2026.devpost.com",
+  },
+  {
+    id: "6",
+    title: "Blockchain for Good",
+    description: "Leverage blockchain technology to solve social and environmental problems.",
+    domain: "Web3",
+    location: "New York, NY",
+    startDate: "Feb 8",
+    endDate: "Feb 10",
+    prizePool: 45000,
+    imageUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://blockchainforgood2026.devpost.com",
+  },
+  {
+    id: "7",
+    title: "Neural Network Challenge",
+    description: "Push the boundaries of deep learning with cutting-edge neural architectures.",
+    domain: "AI/ML",
+    location: "Virtual",
+    startDate: "Mar 12",
+    endDate: "Mar 14",
+    prizePool: 55000,
+    imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://neuralchallenge2026.devpost.com",
+  },
+  {
+    id: "8",
+    title: "Digital Health Innovation",
+    description: "Create digital solutions for mental health, telemedicine, and patient care.",
+    domain: "Healthcare",
+    location: "Chicago, IL",
+    startDate: "Apr 20",
+    endDate: "Apr 22",
+    prizePool: 32000,
+    imageUrl: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://digitalhealthinnovation2026.devpost.com",
   },
 ];
 
@@ -94,7 +158,7 @@ export function HackathonGrid({ searchQuery, selectedDomain }: HackathonGridProp
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">{hackathon.title}</h3>
                 <p className="text-muted-foreground mb-4 line-clamp-2">{hackathon.description}</p>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-4">
                   <span className="text-sm text-muted-foreground flex items-center">
                     <MapPin className="w-4 h-4 mr-1" />
                     {hackathon.location}
@@ -103,6 +167,21 @@ export function HackathonGrid({ searchQuery, selectedDomain }: HackathonGridProp
                     ${hackathon.prizePool.toLocaleString()}
                   </span>
                 </div>
+                <Button 
+                  asChild 
+                  className="w-full bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+                  data-testid={`button-register-${hackathon.id}`}
+                >
+                  <a 
+                    href={hackathon.registrationUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center space-x-2"
+                  >
+                    <span>Register Now</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </Button>
               </CardContent>
             </Card>
           ))}

@@ -2,7 +2,16 @@
 
 ## Overview
 
-AUHM is a comprehensive hackathon discovery platform built for students to explore hackathons around the globe. The application features a modern React frontend with a Node.js/Express backend, providing an intuitive interface for discovering hackathons across various domains like Web3, AI/ML, Healthcare, and more. The platform includes an AI-powered assistant to help users find relevant hackathons and provides comprehensive search and filtering capabilities.
+AUHM is a comprehensive hackathon discovery platform built for students to explore hackathons around the globe. The application features a modern React frontend with a Node.js/Express backend, providing a clean, minimalist interface for discovering hackathons across various domains like Web3, AI/ML, Data Science, Cloud Computing, and Healthcare. The platform includes an AI-powered chat assistant with smooth animations and an interactive animated background that works in both light and dark modes.
+
+## Recent Updates (August 2025)
+
+✓ Simplified header navigation - removed logo and nav items, kept only theme toggle
+✓ Restructured hero section - moved "An Ultimate Hackathon Matrix" title below main "AUHM" heading
+✓ Enhanced animated background with 7 larger, rotating circles and gradient overlays
+✓ Fixed chat auto-scrolling - only scrolls for AI responses, not user messages
+✓ Added 8 comprehensive hackathons with registration links across all domains
+✓ Improved chat scroll detection for better user control
 
 ## User Preferences
 
