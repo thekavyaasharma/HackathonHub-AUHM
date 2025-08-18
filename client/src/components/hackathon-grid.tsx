@@ -101,6 +101,18 @@ const hackathons = [
     imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
     registrationUrl: "https://digitalhealthinnovation2026.devpost.com",
   },
+  {
+    id: "9",
+    title: "Frontend Masters Hackathon",
+    description: "Build innovative web applications using modern JavaScript frameworks and tools.",
+    domain: "Web Dev",
+    location: "Austin, TX",
+    startDate: "May 15",
+    endDate: "May 17",
+    prizePool: 28000,
+    imageUrl: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200",
+    registrationUrl: "https://frontendmasters2026.devpost.com",
+  },
 ];
 
 const getDomainColor = (domain: string) => {
