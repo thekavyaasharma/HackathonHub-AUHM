@@ -37,12 +37,15 @@ export function AIAssistant() {
   };
 
   useEffect(() => {
-    // Only auto-scroll if the last message is from assistant or it's the initial load
-    if (messages.length > 0) {
+    // Only auto-scroll for assistant messages (not user messages or initial load after first message)
+    if (messages.length > 1) {
       const lastMessage = messages[messages.length - 1];
-      if (lastMessage.sender === "assistant" || messages.length === 1) {
+      if (lastMessage.sender === "assistant") {
         scrollToBottom();
       }
+    } else if (messages.length === 1) {
+      // Only scroll on very first initial message
+      scrollToBottom();
     }
   }, [messages]);
 
@@ -55,6 +58,9 @@ export function AIAssistant() {
   const handleSendMessage = async () => {
     const message = input.trim();
     if (!message || isLoading) return;
+
+    // Disable auto-scroll when user sends a message
+    shouldAutoScrollRef.current = false;
 
     const userMessage: Message = {
       id: Date.now().toString(),
