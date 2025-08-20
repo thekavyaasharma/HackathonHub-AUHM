@@ -80,8 +80,8 @@ AUHM is a comprehensive hackathon discovery platform featuring:
 - Gemma 2B model
 
 ---
-```
 ## 📂 Project Structure
+```
 AUHM/
 │
 ├── client/
@@ -120,7 +120,7 @@ AUHM/
 ```bash
 git clone <your-repo-link>
 cd AUHM
-
+```
 ### 2. Install dependencies
 ```bash
 npm i
@@ -130,14 +130,13 @@ npm run dev: Start development server (The app will be running on http://localho
 npm run build: Build project for production
 
 npm run preview: Preview production build 
-
+```
 ---
 ## 🤝 Contributing
-
 Pull requests are welcome. For major changes, open an issue first to discuss what you’d like to change.
 
 ---
 ## 📜 License
 
-
 This project is licensed under the MIT License.
+
