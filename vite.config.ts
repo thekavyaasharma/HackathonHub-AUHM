@@ -1,20 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
   plugins: [
-    react(),
-    runtimeErrorOverlay(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
-          ),
-        ]
-      : []),
+    react({
+      jsxRuntime: "automatic", // modern JSX transform
+    }),
   ],
   resolve: {
     alias: {
@@ -29,9 +21,23 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
+    host: "localhost",
+    port: 5173, // default Vite dev server port
+    open: true, // auto-open browser
+    strictPort: false, // if 5173 busy, use next free port
+    watch: {
+      usePolling: true, // fixes hot reload issues on Windows
+    },
     fs: {
       strict: true,
-      deny: ["**/.*"],
+      deny: ["**/.*"], // block hidden file access
     },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"], // speeds up dev server
+  },
+  esbuild: {
+    loader: "tsx",
+    target: "esnext",
   },
 });

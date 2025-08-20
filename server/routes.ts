@@ -1,67 +1,54 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
-import { z } from "zod";
+import { storage } from "./storage"; // make sure path is correct
 import { insertChatMessageSchema } from "@shared/schema";
+import { generateResponse } from "./llm"; // adjust path if needed (e.g., "./server/llm")
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  
-  // Get hackathons with optional search and domain filtering
-  app.get("/api/hackathons", async (req, res) => {
+
+  // HACKATHONS ENDPOINT 
+  app.get("/api/hackathons", async (_req, res) => {
     try {
-      const { search, domain } = req.query;
-      const hackathons = await storage.getHackathons(
-        search as string,
-        domain as string
-      );
+      const hackathons = await storage.getHackathons();
       res.json(hackathons);
     } catch (error) {
+      console.error("Hackathons fetch error:", error);
       res.status(500).json({ message: "Failed to fetch hackathons" });
     }
   });
 
-  // Chat endpoint for AI assistant
+  //  CHAT ENDPOINT 
   app.post("/api/chat", async (req, res) => {
     try {
-      const { message } = insertChatMessageSchema.parse(req.body);
-      
-      // Call Ollama API
-      const ollamaResponse = await fetch("http://localhost:11434/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "gemma:2b",
-          prompt: `You are AUHM Assistant, a helpful AI assistant for An Ultimate Hackathon Matrix platform. You help students find hackathons, provide tips for hackathon success, and answer questions about events. Keep responses concise and helpful.
+      // Use provided chatId or fallback to "default"
+      const { chatId = "default", message } = req.body as { chatId?: string; message: string };
 
-User message: ${message}
-
-Response:`,
-          stream: false,
-        }),
-      });
-
-      if (!ollamaResponse.ok) {
-        throw new Error("Ollama API request failed");
+      if (!message) {
+        return res.status(400).json({ message: "Message is required" });
       }
 
-      const ollamaData = await ollamaResponse.json();
-      const assistantMessage = ollamaData.response;
+      // Validate user message
+      const parsed = insertChatMessageSchema.parse({ message, sender: "user" });
 
-      // Store messages (optional, for now just return the response)
-      await storage.saveChatMessage({ message, sender: "user" });
-      await storage.saveChatMessage({ message: assistantMessage, sender: "assistant" });
+      // Call Gemma 2B via generateResponse
+      const assistantMessage = await generateResponse(parsed.message);
 
+      // Save messages
+      await storage.saveChatMessage(chatId, { message: parsed.message, sender: "user" });
+      await storage.saveChatMessage(chatId, { message: assistantMessage, sender: "assistant" });
+
+      // Return response
       res.json({ message: assistantMessage });
+
     } catch (error) {
       console.error("Chat error:", error);
-      res.status(500).json({ 
-        message: "I'm having trouble connecting right now. Please try again later." 
+      res.status(500).json({
+        message: "I'm having trouble connecting right now. Please try again later."
       });
     }
   });
 
+  // Create and return HTTP server
   const httpServer = createServer(app);
   return httpServer;
 }
